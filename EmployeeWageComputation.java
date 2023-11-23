@@ -1,9 +1,6 @@
 public class EmployeeWageComputation {
-    private static final int WAGE_PER_HOUR = 20;
     private static final int FULL_DAY_HOUR = 8;
     private static final int PART_TIME_HOUR = 4;
-    private static final int MAX_WORKING_HOURS = 100;
-    private static final int MAX_WORKING_DAYS = 20;
 
     private static final int ABSENT = 0;
     private static final int PART_TIME = 1;
@@ -11,47 +8,54 @@ public class EmployeeWageComputation {
 
     public static void main(String[] args) {
         System.out.println("Welcome to Employee Wage Computation Program");
-        computeEmployeeWage();
+
+        computeEmployeeWage("CompanyA", 20, 10, 100);
+        computeEmployeeWage("CompanyB", 25, 15, 120);
     }
 
-    private static void computeEmployeeWage() {
+    private static void computeEmployeeWage(String companyName, int wagePerHour, int maxWorkingDays, int maxWorkingHours) {
+        System.out.println("Wage computation for " + companyName);
+
         int totalWage = 0;
         int totalWorkingHours = 0;
         int workingDays = 0;
         int day = 0;
 
-        while (totalWorkingHours < MAX_WORKING_HOURS && workingDays < MAX_WORKING_DAYS) {
+        while (totalWorkingHours < maxWorkingHours && workingDays < maxWorkingDays) {
             int employeeType = getEmployeeType();
+            int hoursWorked = 0;
+            
             switch (employeeType) {
                 case ABSENT:
                     System.out.println("Day " + (day + 1) + ": Employee is Absent");
                     break;
                 case PART_TIME:
                     System.out.println("Day " + (day + 1) + ": Employee is Part-time");
-                    totalWage += calculateDailyWage(PART_TIME_HOUR);
-                    totalWorkingHours += PART_TIME_HOUR;
+                    hoursWorked = PART_TIME_HOUR;
                     break;
                 case FULL_TIME:
                     System.out.println("Day " + (day + 1) + ": Employee is Full-time");
-                    totalWage += calculateDailyWage(FULL_DAY_HOUR);
-                    totalWorkingHours += FULL_DAY_HOUR;
+                    hoursWorked = FULL_DAY_HOUR;
                     break;
             }
 
+            totalWage += calculateDailyWage(wagePerHour, hoursWorked);
+            totalWorkingHours += hoursWorked;
             if (employeeType != ABSENT) {
                 workingDays++;
             }
 
-            if (totalWorkingHours > MAX_WORKING_HOURS) {
-                totalWorkingHours = MAX_WORKING_HOURS;
+            if (totalWorkingHours > maxWorkingHours) {
+                totalWorkingHours = maxWorkingHours;
             }
 
             day++;
         }
 
-        System.out.println("Total Wage for the Month: " + totalWage);
+        System.out.println("Total Wage for " + companyName + ": " + totalWage);
         System.out.println("Total Working Hours: " + totalWorkingHours);
         System.out.println("Total Working Days: " + workingDays);
+        System.out.println();
     }
 
     private static int getEmployeeType() {
@@ -61,7 +65,7 @@ public class EmployeeWageComputation {
         else return FULL_TIME;
     }
 
-    private static int calculateDailyWage(int hours) {
-        return WAGE_PER_HOUR * hours;
+    private static int calculateDailyWage(int wagePerHour, int hours) {
+        return wagePerHour * hours;
     }
 }
