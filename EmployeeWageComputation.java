@@ -1,22 +1,39 @@
 public class EmployeeWageComputation {
+    public static void main(String[] args) {
+        System.out.println("Welcome to Employee Wage Computation Program");
+
+        EmpWageBuilder companyA = new EmpWageBuilder("CompanyA", 20, 10, 100);
+        companyA.computeEmployeeWage();
+
+        EmpWageBuilder companyB = new EmpWageBuilder("CompanyB", 25, 15, 120);
+        companyB.computeEmployeeWage();
+    }
+}
+
+class EmpWageBuilder {
     private static final int FULL_DAY_HOUR = 8;
     private static final int PART_TIME_HOUR = 4;
-
     private static final int ABSENT = 0;
     private static final int PART_TIME = 1;
     private static final int FULL_TIME = 2;
 
-    public static void main(String[] args) {
-        System.out.println("Welcome to Employee Wage Computation Program");
+    private String companyName;
+    private int wagePerHour;
+    private int maxWorkingDays;
+    private int maxWorkingHours;
+    private int totalWage;
 
-        computeEmployeeWage("CompanyA", 20, 10, 100);
-        computeEmployeeWage("CompanyB", 25, 15, 120);
+    public EmpWageBuilder(String companyName, int wagePerHour, int maxWorkingDays, int maxWorkingHours) {
+        this.companyName = companyName;
+        this.wagePerHour = wagePerHour;
+        this.maxWorkingDays = maxWorkingDays;
+        this.maxWorkingHours = maxWorkingHours;
+        this.totalWage = 0;
     }
 
-    private static void computeEmployeeWage(String companyName, int wagePerHour, int maxWorkingDays, int maxWorkingHours) {
+    public void computeEmployeeWage() {
         System.out.println("Wage computation for " + companyName);
 
-        int totalWage = 0;
         int totalWorkingHours = 0;
         int workingDays = 0;
         int day = 0;
@@ -58,14 +75,14 @@ public class EmployeeWageComputation {
         System.out.println();
     }
 
-    private static int getEmployeeType() {
+    private int getEmployeeType() {
         double randomNumber = Math.random();
         if (randomNumber < 0.33) return ABSENT;
         else if (randomNumber < 0.66) return PART_TIME;
         else return FULL_TIME;
     }
 
-    private static int calculateDailyWage(int wagePerHour, int hours) {
+    private int calculateDailyWage(int wagePerHour, int hours) {
         return wagePerHour * hours;
     }
 }
