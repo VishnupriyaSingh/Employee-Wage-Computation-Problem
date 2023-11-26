@@ -35,6 +35,7 @@ class EmpWageBuilder implements IEmployeeWageComputation {
         for (CompanyEmpWage company : companies) {
             company.setTotalWage(this.computeEmpWage(company));
             System.out.println(company);
+            System.out.println("Daily Wages: " + company.getDailyWages());
         }
     }
 
@@ -49,20 +50,22 @@ class EmpWageBuilder implements IEmployeeWageComputation {
             int hoursWorked = 0;
 
             switch (employeeType) {
-                case 0: 
+                case 0:
                     System.out.println("Day " + (day + 1) + ": Employee is Absent");
                     break;
-                case 1: 
+                case 1:
                     System.out.println("Day " + (day + 1) + ": Employee is Part-time");
                     hoursWorked = 4;
                     break;
-                case 2: 
+                case 2:
                     System.out.println("Day " + (day + 1) + ": Employee is Full-time");
                     hoursWorked = 8;
                     break;
             }
 
-            totalWage += calculateDailyWage(company.getWagePerHour(), hoursWorked);
+            int dailyWage = calculateDailyWage(company.getWagePerHour(), hoursWorked);
+            company.addDailyWage(dailyWage);
+            totalWage += dailyWage;
             totalWorkingHours += hoursWorked;
             if (employeeType != 0) {
                 workingDays++;
@@ -92,12 +95,22 @@ class CompanyEmpWage {
     private final int maxWorkingDays;
     private final int maxWorkingHours;
     private int totalWage;
+    private List<Integer> dailyWages;
 
     public CompanyEmpWage(String companyName, int wagePerHour, int maxWorkingDays, int maxWorkingHours) {
         this.companyName = companyName;
         this.wagePerHour = wagePerHour;
         this.maxWorkingDays = maxWorkingDays;
         this.maxWorkingHours = maxWorkingHours;
+        this.dailyWages = new ArrayList<>();
+    }
+
+    public void addDailyWage(int dailyWage) {
+        dailyWages.add(dailyWage);
+    }
+
+    public List<Integer> getDailyWages() {
+        return dailyWages;
     }
 
     public void setTotalWage(int totalWage) {
