@@ -4,6 +4,7 @@ import java.util.List;
 interface IEmployeeWageComputation {
     void addCompanyEmpWage(String name, int wagePerHour, int maxWorkingDays, int maxWorkingHours);
     void computeEmpWageForAllCompanies();
+    int getTotalWageByCompanyName(String companyName);
 }
 
 public class EmployeeWageComputation {
@@ -14,6 +15,9 @@ public class EmployeeWageComputation {
         wageBuilder.addCompanyEmpWage("CompanyA", 20, 10, 100);
         wageBuilder.addCompanyEmpWage("CompanyB", 25, 15, 120);
         wageBuilder.computeEmpWageForAllCompanies();
+
+        System.out.println("Total Wage for CompanyA: " + wageBuilder.getTotalWageByCompanyName("CompanyA"));
+        System.out.println("Total Wage for CompanyB: " + wageBuilder.getTotalWageByCompanyName("CompanyB"));
     }
 }
 
@@ -39,6 +43,16 @@ class EmpWageBuilder implements IEmployeeWageComputation {
         }
     }
 
+    @Override
+    public int getTotalWageByCompanyName(String companyName) {
+        for (CompanyEmpWage company : companies) {
+            if (company.getCompanyName().equals(companyName)) {
+                return company.getTotalWage();
+            }
+        }
+        return -1; 
+    }
+
     private int computeEmpWage(CompanyEmpWage company) {
         int totalWage = 0;
         int totalWorkingHours = 0;
@@ -50,14 +64,14 @@ class EmpWageBuilder implements IEmployeeWageComputation {
             int hoursWorked = 0;
 
             switch (employeeType) {
-                case 0:
+                case 0: 
                     System.out.println("Day " + (day + 1) + ": Employee is Absent");
                     break;
-                case 1:
+                case 1: 
                     System.out.println("Day " + (day + 1) + ": Employee is Part-time");
                     hoursWorked = 4;
                     break;
-                case 2:
+                case 2: 
                     System.out.println("Day " + (day + 1) + ": Employee is Full-time");
                     hoursWorked = 8;
                     break;
@@ -115,6 +129,10 @@ class CompanyEmpWage {
 
     public void setTotalWage(int totalWage) {
         this.totalWage = totalWage;
+    }
+
+    public int getTotalWage() {
+        return totalWage;
     }
 
     @Override
