@@ -1,29 +1,38 @@
 import java.util.ArrayList;
 import java.util.List;
 
+// Interface declaration
+interface IEmployeeWageComputation {
+    void addCompanyEmpWage(String name, int wagePerHour, int maxWorkingDays, int maxWorkingHours);
+    void computeEmpWageForAllCompanies();
+}
+
+// Main class
 public class EmployeeWageComputation {
     public static void main(String[] args) {
         System.out.println("Welcome to Employee Wage Computation Program");
 
-        EmpWageBuilder wageBuilder = new EmpWageBuilder();
+        IEmployeeWageComputation wageBuilder = new EmpWageBuilder();
         wageBuilder.addCompanyEmpWage("CompanyA", 20, 10, 100);
         wageBuilder.addCompanyEmpWage("CompanyB", 25, 15, 120);
         wageBuilder.computeEmpWageForAllCompanies();
     }
 }
 
-class EmpWageBuilder {
+class EmpWageBuilder implements IEmployeeWageComputation {
     private List<CompanyEmpWage> companies;
 
     public EmpWageBuilder() {
         companies = new ArrayList<>();
     }
 
+    @Override
     public void addCompanyEmpWage(String name, int wagePerHour, int maxWorkingDays, int maxWorkingHours) {
         CompanyEmpWage newCompany = new CompanyEmpWage(name, wagePerHour, maxWorkingDays, maxWorkingHours);
         companies.add(newCompany);
     }
 
+    @Override
     public void computeEmpWageForAllCompanies() {
         for (CompanyEmpWage company : companies) {
             company.setTotalWage(this.computeEmpWage(company));
