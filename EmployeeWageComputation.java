@@ -1,13 +1,11 @@
 import java.util.ArrayList;
 import java.util.List;
 
-// Interface declaration
 interface IEmployeeWageComputation {
     void addCompanyEmpWage(String name, int wagePerHour, int maxWorkingDays, int maxWorkingHours);
     void computeEmpWageForAllCompanies();
 }
 
-// Main class
 public class EmployeeWageComputation {
     public static void main(String[] args) {
         System.out.println("Welcome to Employee Wage Computation Program");
@@ -51,14 +49,14 @@ class EmpWageBuilder implements IEmployeeWageComputation {
             int hoursWorked = 0;
 
             switch (employeeType) {
-                case 0:
+                case 0: 
                     System.out.println("Day " + (day + 1) + ": Employee is Absent");
                     break;
-                case 1:
+                case 1: 
                     System.out.println("Day " + (day + 1) + ": Employee is Part-time");
                     hoursWorked = 4;
                     break;
-                case 2:
+                case 2: 
                     System.out.println("Day " + (day + 1) + ": Employee is Full-time");
                     hoursWorked = 8;
                     break;
